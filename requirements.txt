@@ -1,0 +1,13 @@
+langchain
+openai
+chromadb
+langchainhub
+langchain-community 
+langchain-core
+bs4
+tiktoken
+unstructured
+python-docx
+pypdf
+pandas
+python-dotenv
