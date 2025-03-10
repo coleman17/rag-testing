@@ -1,8 +1,8 @@
+langchain>=0.2.0
 langchain-core>=0.2.0
 langchain-community>=0.2.0
 langchain-openai>=0.2.0
 langchain-text-splitters>=0.2.0
-langchainhub
 openai
 chromadb
 bs4
@@ -12,3 +12,6 @@ python-docx
 pypdf
 pandas
 python-dotenv
+llama-cpp-python
+sentence-transformers
+ollama
