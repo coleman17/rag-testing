@@ -1,14 +1,13 @@
 import os
 import bs4
 from langchain import hub
-from langchain.chat_models import ChatOpenAI
-from langchain.document_loaders import WebBaseLoader, TextLoader, DirectoryLoader, PyPDFLoader, CSVLoader
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.schema import StrOutputParser
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_community.document_loaders import WebBaseLoader, TextLoader, DirectoryLoader, PyPDFLoader, CSVLoader
+from langchain_community.document_loaders.unstructured import UnstructuredFileLoader
+from langchain_core.output_parsers import StrOutputParser
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.vectorstores import Chroma
 from langchain_core.runnables import RunnablePassthrough
-from langchain.document_loaders.unstructured import UnstructuredFileLoader
 
 import dotenv
 
@@ -69,16 +68,21 @@ splits = text_splitter.split_documents(all_docs)
 print(f"Created {len(splits)} document chunks")
 
 # Create vector store and retriever
+embeddings = OpenAIEmbeddings(
+    model="text-embedding-3-small",  # Use a newer embedding model
+    dimensions=1536,  # Match dimensions with your existing embeddings if reusing the DB
+)
+
 vectorstore = Chroma.from_documents(
     documents=splits, 
-    embedding=OpenAIEmbeddings(), 
+    embedding=embeddings, 
     persist_directory="./chroma_db"
 )
 retriever = vectorstore.as_retriever()
 
 # Set up the RAG pipeline
 prompt = hub.pull("rlm/rag-prompt")
-llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
+llm = ChatOpenAI(model_name="gpt-4o", temperature=0)
 
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
@@ -106,7 +110,7 @@ if __name__ == "__main__":
         print(f"Please add your local documents to this directory and run the script again.")
     
     # Example questions
-    ask_question("How long is the Open Source internship?")
+    ask_question(input("How can I help you today?\n"))
     
     # You can add more questions here
     # ask_question("Your question here")
