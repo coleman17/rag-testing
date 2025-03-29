@@ -26,7 +26,7 @@ os.environ["USER_AGENT"] = "RAG-Testing/1.0"
 CONFIG = {
     "use_local_model": True,  # Set to True to use local Llama model, False for OpenAI
     "local_model_type": "ollama",  # "llamacpp" or "ollama"
-    "local_model_path": "deepseek-r1:8b",  # For llamacpp: path to model, for ollama: model name
+    "local_model_path": "deepseek-r1:14b",  # For llamacpp: path to model, for ollama: model name
     "openai_model": "gpt-4o",  # OpenAI model to use
     "use_local_embeddings": True,  # Set to True to use local embeddings, False for OpenAI
     "local_embeddings_model": "all-MiniLM-L6-v2",  # HuggingFace model for embeddings
@@ -184,7 +184,7 @@ def ask_question(rag_chain, question):
 if __name__ == "__main__":
     # Example usage
     web_paths = [
-        "",
+        "https://domino.ai/solutions/life-sciences-sce",
     ]
     local_docs_dir = "./data"  # Change this to your local data directory
     
